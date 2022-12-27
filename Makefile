@@ -7,11 +7,9 @@ ifeq ($(GOHOSTOS), windows)
 	#to see https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/find.
 	#changed to use git-bash.exe to run find cli or other cli friendly, caused of every developer has a Git.
 	Git_Bash= $(subst cmd\,bin\bash.exe,$(dir $(shell where git)))
-	INTERNAL_PROTO_FILES=$(shell $(Git_Bash) -c "find internal -name *.proto")
 	API_PROTO_FILES=$(shell $(Git_Bash) -c "find api -name *.proto")
 else
-	INTERNAL_PROTO_FILES=$(shell find internal -name *.proto)
-	API_PROTO_FILES=$(shell find api -name *.proto)
+	API_PROTO_FILES=$(shell find protobuf -name *.proto)
 endif
 # Install/Update to the latest CLI tool.
 .PHONY: cli
@@ -84,19 +82,13 @@ deploy:
 .PHONY: api
 # generate api proto
 api:
-	protoc --proto_path=./api/protobuf/ \
+	protoc --proto_path=./protobuf/ \
 	       --proto_path=./third_party \
-		   --go_out=paths=source_relative:./api/generated/grpc/ \
-		   --go-grpc_out=paths=source_relative:./api/generated/grpc/ \
-		   --go-ghttp_out=full_import_path=true,file_path=./api/generated/http/,paths=source_relative:./api/generated/http/ \
+		   --go_out=paths=source_relative:./api/grpc/ \
+		   --go-grpc_out=paths=source_relative:./api/grpc/ \
+		   --go-ghttp_out=full_import_path=true,file_path=./api/http/,paths=source_relative:./api/http/ \
 	       $(API_PROTO_FILES)
 
-.PHONY: generate
-# generate
-generate:
-	go mod tidy
-	go get github.com/google/wire/cmd/wire@latest
-	go generate ./...
 
 .PHONY: all
 # generate all
