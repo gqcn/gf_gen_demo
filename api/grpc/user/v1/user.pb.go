@@ -20,7 +20,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// message: sign in request
 type SignInReq struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

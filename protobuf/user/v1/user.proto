@@ -9,7 +9,6 @@ service User {
   rpc Profile (ProfileReq) returns (ProfileRes);
 }
 
-// message: sign in request
 message SignInReq {
   // 用户名称
   // v: required

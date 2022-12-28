@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package user.v2;
+
+option go_package = "/user/v2";
+
+// 123
+// tags:
+// method: put
+// path:   /user/sign_in
+message SignInReq {
+  // 用户名称
+  // v: required
+  string name = 1;
+
+  // 用户密码
+  // v: required
+  string password = 2;
+
+  // 用户密码确认
+  // v: required|same:password
+  string passport = 3;
+
+  // 邮箱地址
+  // v: email
+  string email = 4;
+
+  // 手机号码
+  // v: phone
+  string phone = 5;
+
+
+}
+
+message SignInRes {}

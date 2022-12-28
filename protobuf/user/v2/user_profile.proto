@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package user.v2;
+
+option go_package = "/user/v2";
+
+import "entity/user.proto";
+
+message ProfileReq {
+  // 用户ID
+  // v: required
+  uint64 id = 1;
+}
+
+message ProfileRes {
+  entity.User user = 1;
+}

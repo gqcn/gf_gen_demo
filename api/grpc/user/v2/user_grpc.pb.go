@@ -22,7 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserClient interface {
-	SignIn(ctx context.Context, in *SignInReq, opts ...grpc.CallOption) (*SignRes, error)
+	SignIn(ctx context.Context, in *SignInReq, opts ...grpc.CallOption) (*SignInRes, error)
 	Profile(ctx context.Context, in *ProfileReq, opts ...grpc.CallOption) (*ProfileRes, error)
 }
 
@@ -34,8 +34,8 @@ func NewUserClient(cc grpc.ClientConnInterface) UserClient {
 	return &userClient{cc}
 }
 
-func (c *userClient) SignIn(ctx context.Context, in *SignInReq, opts ...grpc.CallOption) (*SignRes, error) {
-	out := new(SignRes)
+func (c *userClient) SignIn(ctx context.Context, in *SignInReq, opts ...grpc.CallOption) (*SignInRes, error) {
+	out := new(SignInRes)
 	err := c.cc.Invoke(ctx, "/user.v2.User/SignIn", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -56,7 +56,7 @@ func (c *userClient) Profile(ctx context.Context, in *ProfileReq, opts ...grpc.C
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility
 type UserServer interface {
-	SignIn(context.Context, *SignInReq) (*SignRes, error)
+	SignIn(context.Context, *SignInReq) (*SignInRes, error)
 	Profile(context.Context, *ProfileReq) (*ProfileRes, error)
 	mustEmbedUnimplementedUserServer()
 }
@@ -65,7 +65,7 @@ type UserServer interface {
 type UnimplementedUserServer struct {
 }
 
-func (UnimplementedUserServer) SignIn(context.Context, *SignInReq) (*SignRes, error) {
+func (UnimplementedUserServer) SignIn(context.Context, *SignInReq) (*SignInRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SignIn not implemented")
 }
 func (UnimplementedUserServer) Profile(context.Context, *ProfileReq) (*ProfileRes, error) {
